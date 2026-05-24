@@ -63,7 +63,7 @@ impl RemoteBuilderConfig {
     }
 }
 
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Eq, PartialEq, Serialize, Deserialize)]
 pub struct BuilderHeaderPayload {
     #[serde(rename = "KUEST_BUILDER_API_KEY")]
     pub kuest_builder_api_key: String,
@@ -73,6 +73,17 @@ pub struct BuilderHeaderPayload {
     pub kuest_builder_passphrase: String,
     #[serde(rename = "KUEST_BUILDER_SIGNATURE")]
     pub kuest_builder_signature: String,
+}
+
+impl std::fmt::Debug for BuilderHeaderPayload {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("BuilderHeaderPayload")
+            .field("kuest_builder_api_key", &"<redacted>")
+            .field("kuest_builder_timestamp", &self.kuest_builder_timestamp)
+            .field("kuest_builder_passphrase", &"<redacted>")
+            .field("kuest_builder_signature", &"<redacted>")
+            .finish()
+    }
 }
 
 impl BuilderHeaderPayload {

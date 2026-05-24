@@ -69,6 +69,23 @@ async fn remote_builder_auth_headers_are_forwarded() {
 }
 
 #[test]
+fn builder_header_payload_debug_redacts_sensitive_fields() {
+    let headers = kuest_builder_relayer_client::BuilderHeaderPayload {
+        kuest_builder_api_key: "test-api-key".to_owned(),
+        kuest_builder_timestamp: "1758744060".to_owned(),
+        kuest_builder_passphrase: "test-passphrase".to_owned(),
+        kuest_builder_signature: "test-signature".to_owned(),
+    };
+
+    let debug_output = format!("{headers:?}");
+
+    assert!(!debug_output.contains("test-api-key"));
+    assert!(!debug_output.contains("test-passphrase"));
+    assert!(!debug_output.contains("test-signature"));
+    assert!(debug_output.contains("1758744060"));
+}
+
+#[test]
 fn builder_type_prefers_local_when_both_are_present() {
     let config = BuilderConfig::from_parts(
         Some(

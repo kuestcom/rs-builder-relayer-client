@@ -5,7 +5,7 @@ use common::{
     deposit_wallet_call,
 };
 use httpmock::prelude::*;
-use kuest_builder_relayer_client::{Error, RelayClient, RelayerTransactionState};
+use kuest_builder_relayer_client::{Error, RelayClient, RelayerTransactionState, TransactionType};
 use serde_json::Value;
 use std::sync::Arc;
 use std::sync::Mutex;
@@ -86,6 +86,7 @@ async fn get_transaction_uses_public_endpoint() {
     assert_eq!(payload.len(), 1);
     assert_eq!(payload[0].transaction_id, "txn-1");
     assert_eq!(payload[0].transaction_hash.as_deref(), Some("0xabc"));
+    assert_eq!(payload[0].transaction_type, TransactionType::Wallet);
 }
 
 #[tokio::test]

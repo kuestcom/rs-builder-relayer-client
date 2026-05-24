@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 pub enum TransactionType {
     #[serde(rename = "WALLET")]
     Wallet,
-    #[serde(rename = "WALLET-CREATE")]
+    #[serde(rename = "WALLET-CREATE", alias = "WALLET_CREATE")]
     WalletCreate,
 }
 
@@ -145,7 +145,7 @@ pub struct RelayerTransaction {
     )]
     pub failure_reason: Option<String>,
     #[serde(rename = "type")]
-    pub transaction_type: String,
+    pub transaction_type: TransactionType,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub metadata: Option<String>,
     #[serde(rename = "createdAt")]
