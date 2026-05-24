@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.91.1
+          components: rustfmt, clippy
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Cargo fmt
+        run: cargo fmt --check
+
+      - name: Cargo clippy
+        run: cargo clippy --all-targets --all-features -- -D warnings
+
+      - name: Cargo test
+        run: cargo test --all-features
+
+      - name: Cargo check locked
+        run: cargo check --locked

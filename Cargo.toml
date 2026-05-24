@@ -1,0 +1,53 @@
+[package]
+name = "kuest-builder-relayer-client"
+version = "0.1.0"
+description = "Rust Deposit Wallet relayer client SDK"
+authors = ["Kuest Engineering <engineering@kuest.com>"]
+edition = "2024"
+rust-version = "1.91.1"
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/kuestcom/rs-builder-relayer-client"
+keywords = ["kuest", "relayer", "wallet", "sdk", "polygon"]
+categories = [
+    "api-bindings",
+    "cryptography::cryptocurrencies",
+    "web-programming::http-client",
+]
+
+[features]
+default = []
+tracing = ["dep:tracing"]
+
+[dependencies]
+alloy = { version = "2.0.5", default-features = false, features = [
+    "dyn-abi",
+    "serde",
+    "signer-local",
+    "signers",
+    "sol-types",
+] }
+base64 = "0.22.1"
+chrono = { version = "0.4.43", features = ["serde"] }
+hmac = "0.13.0"
+reqwest = { version = "0.13.3", default-features = false, features = ["json", "query", "rustls"] }
+secrecy = { version = "0.10", features = ["serde"] }
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.149"
+sha2 = "0.11.0"
+thiserror = "2.0.17"
+tokio = { version = "1.49.0", features = ["rt", "time"] }
+tracing = { version = "0.1", optional = true }
+url = { version = "2.5.8", features = ["serde"] }
+
+[dev-dependencies]
+httpmock = "0.8.2"
+tokio = { version = "1.49.0", features = ["macros", "rt-multi-thread", "time"] }
+
+[lints.clippy]
+pedantic = { level = "warn", priority = -1 }
+cargo = { level = "warn", priority = -1 }
+missing_errors_doc = "allow"
+multiple_crate_versions = "allow"
+must_use_candidate = "allow"
+struct_field_names = "allow"
