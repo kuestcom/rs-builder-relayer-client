@@ -414,6 +414,80 @@ async fn poll_until_state_returns_none_on_fail_state() {
 }
 
 #[tokio::test]
+async fn poll_until_state_returns_none_on_invalid_state() {
+    let server = MockServer::start();
+    let tx_mock = server.mock(|when, then| {
+        when.method(GET)
+            .path("/transaction")
+            .query_param("id", "txn-1");
+        then.status(200).json_body_obj(&serde_json::json!([{
+            "transactionID": "txn-1",
+            "transactionHash": "0xabc",
+            "from": ADDRESS,
+            "to": "0x3DaBe8f032833CE42CC26d9149660E6f596759C5",
+            "walletAddress": BATCH_WALLET,
+            "data": "0x",
+            "nonce": "0",
+            "value": "0",
+            "state": "STATE_INVALID",
+            "failureReason": "bad payload",
+            "type": "WALLET",
+            "metadata": null,
+            "createdAt": "2026-05-24T18:00:00Z",
+            "updatedAt": "2026-05-24T18:00:00Z"
+        }]));
+    });
+
+    let client = RelayClient::new(&server.base_url(), 137, None, None).expect("valid client");
+    let transaction = client
+        .poll_until_state(
+            "txn-1",
+            &[RelayerTransactionState::StateConfirmed],
+            Some(RelayerTransactionState::StateFailed),
+            Some(5),
+            Some(std::time::Duration::from_millis(1_000)),
+        )
+        .await
+        .expect("poll succeeds");
+
+    tx_mock.assert();
+    assert!(transaction.is_none());
+}
+
+#[tokio::test]
+async fn poll_until_state_does_not_sleep_after_last_poll() {
+    let server = MockServer::start();
+    let tx_mock = server.mock(|when, then| {
+        when.method(GET)
+            .path("/transaction")
+            .query_param("id", "txn-1");
+        then.status(200).json_body_obj(&serde_json::json!([]));
+    });
+
+    let client = RelayClient::new(&server.base_url(), 137, None, None).expect("valid client");
+    let result = tokio::time::timeout(
+        std::time::Duration::from_millis(250),
+        client.poll_until_state(
+            "txn-1",
+            &[RelayerTransactionState::StateConfirmed],
+            Some(RelayerTransactionState::StateFailed),
+            Some(1),
+            Some(std::time::Duration::from_millis(1_000)),
+        ),
+    )
+    .await;
+
+    tx_mock.assert_calls(1);
+    assert!(result.is_ok(), "poll_until_state slept after final poll");
+    assert!(
+        result
+            .expect("future completed")
+            .expect("poll succeeds")
+            .is_none()
+    );
+}
+
+#[tokio::test]
 async fn response_wait_uses_polling_helper() {
     let server = MockServer::start();
     let submit_mock = server.mock(|when, then| {
@@ -459,4 +533,52 @@ async fn response_wait_uses_polling_helper() {
         transaction.expect("transaction resolves").state,
         "STATE_CONFIRMED"
     );
+}
+
+#[tokio::test]
+async fn response_wait_treats_invalid_as_terminal_failure() {
+    let server = MockServer::start();
+    let submit_mock = server.mock(|when, then| {
+        when.method(POST).path("/submit");
+        then.status(200).json_body_obj(&serde_json::json!({
+            "transactionID": "test-txn",
+            "state": "STATE_NEW",
+            "transactionHash": "0xabc",
+            "hash": "0xabc",
+        }));
+    });
+    let tx_mock = server.mock(|when, then| {
+        when.method(GET)
+            .path("/transaction")
+            .query_param("id", "test-txn");
+        then.status(200).json_body_obj(&serde_json::json!([{
+            "transactionID": "test-txn",
+            "transactionHash": "0xabc",
+            "from": ADDRESS,
+            "to": "0x3DaBe8f032833CE42CC26d9149660E6f596759C5",
+            "walletAddress": BATCH_WALLET,
+            "data": "0x",
+            "nonce": "0",
+            "value": "0",
+            "state": "STATE_INVALID",
+            "failureReason": "bad payload",
+            "type": "WALLET-CREATE",
+            "metadata": null,
+            "createdAt": "2026-05-24T18:00:00Z",
+            "updatedAt": "2026-05-24T18:00:00Z"
+        }]));
+    });
+
+    let response = client(&server.base_url(), 137)
+        .deploy_deposit_wallet()
+        .await
+        .expect("deploy succeeds");
+    let transaction = tokio::time::timeout(std::time::Duration::from_millis(250), response.wait())
+        .await
+        .expect("wait should not spin on STATE_INVALID")
+        .expect("wait succeeds");
+
+    submit_mock.assert();
+    tx_mock.assert();
+    assert!(transaction.is_none());
 }

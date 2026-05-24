@@ -308,7 +308,7 @@ impl RelayClient {
             .unwrap_or_else(|| Duration::from_secs(2))
             .max(Duration::from_secs(1));
 
-        for _ in 0..poll_limit {
+        for poll_index in 0..poll_limit {
             let transactions = self.get_transaction(transaction_id).await?;
             if let Some(transaction) = transactions.into_iter().next() {
                 if states
@@ -317,14 +317,20 @@ impl RelayClient {
                 {
                     return Ok(Some(transaction));
                 }
-                if let Some(fail_state) = fail_state
-                    && transaction.state == fail_state.as_str()
-                {
+                let is_configured_fail_state = fail_state.is_some_and(|configured_fail_state| {
+                    transaction.state == configured_fail_state.as_str()
+                });
+                let is_invalid_state =
+                    transaction.state == RelayerTransactionState::StateInvalid.as_str();
+
+                if is_configured_fail_state || is_invalid_state {
                     return Ok(None);
                 }
             }
 
-            tokio::time::sleep(poll_frequency).await;
+            if poll_index + 1 < poll_limit {
+                tokio::time::sleep(poll_frequency).await;
+            }
         }
 
         Ok(None)

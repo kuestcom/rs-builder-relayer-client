@@ -86,6 +86,32 @@ fn builder_header_payload_debug_redacts_sensitive_fields() {
 }
 
 #[test]
+fn builder_api_key_creds_debug_redacts_sensitive_fields() {
+    let creds = BuilderApiKeyCreds::new("test-api-key", "test-secret", "test-passphrase");
+
+    let debug_output = format!("{creds:?}");
+
+    assert!(!debug_output.contains("test-api-key"));
+    assert!(!debug_output.contains("test-secret"));
+    assert!(!debug_output.contains("test-passphrase"));
+}
+
+#[test]
+fn remote_builder_config_debug_redacts_bearer_token() {
+    let config = kuest_builder_relayer_client::RemoteBuilderConfig::new(
+        "https://example.com/sign",
+        Some("super-secret-token".to_owned()),
+    )
+    .expect("valid remote config");
+
+    let debug_output = format!("{config:?}");
+
+    assert!(debug_output.contains("example.com"));
+    assert!(!debug_output.contains("super-secret-token"));
+    assert!(debug_output.contains("<redacted>"));
+}
+
+#[test]
 fn builder_type_prefers_local_when_both_are_present() {
     let config = BuilderConfig::from_parts(
         Some(

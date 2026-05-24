@@ -21,11 +21,21 @@ pub enum BuilderType {
     Remote,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone)]
 pub struct BuilderApiKeyCreds {
     pub key: String,
     pub secret: SecretString,
     pub passphrase: SecretString,
+}
+
+impl std::fmt::Debug for BuilderApiKeyCreds {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("BuilderApiKeyCreds")
+            .field("key", &"<redacted>")
+            .field("secret", &"<redacted>")
+            .field("passphrase", &"<redacted>")
+            .finish()
+    }
 }
 
 impl BuilderApiKeyCreds {
@@ -43,10 +53,21 @@ impl BuilderApiKeyCreds {
     }
 }
 
-#[derive(Clone, Debug, Eq, PartialEq)]
+#[derive(Clone, Eq, PartialEq)]
 pub struct RemoteBuilderConfig {
     pub url: Url,
     pub token: Option<String>,
+}
+
+impl std::fmt::Debug for RemoteBuilderConfig {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let token = self.token.as_ref().map(|_| "<redacted>");
+
+        f.debug_struct("RemoteBuilderConfig")
+            .field("url", &self.url)
+            .field("token", &token)
+            .finish()
+    }
 }
 
 impl RemoteBuilderConfig {
