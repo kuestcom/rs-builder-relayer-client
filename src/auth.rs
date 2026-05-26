@@ -261,8 +261,11 @@ fn build_hmac_signature(
 ) -> Result<String> {
     let decoded_secret = decode_secret(secret)?;
     let mut mac = Hmac::<Sha256>::new_from_slice(&decoded_secret)?;
+    let signing_path = request_path
+        .split_once('?')
+        .map_or(request_path, |(path, _)| path);
 
-    let mut message = format!("{timestamp}{method}{request_path}");
+    let mut message = format!("{timestamp}{method}{signing_path}");
     if let Some(body) = body {
         message.push_str(body);
     }

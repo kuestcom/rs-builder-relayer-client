@@ -32,6 +32,29 @@ async fn local_builder_auth_headers_match_fixed_vector() {
 }
 
 #[tokio::test]
+async fn local_builder_auth_headers_ignore_query_string_in_path() {
+    let body = r#"{"data":"example"}"#;
+    let path_headers = builder_config()
+        .generate_builder_headers("POST", "/order", Some(body), Some(1_758_744_060))
+        .await
+        .expect("headers generate");
+    let query_headers = builder_config()
+        .generate_builder_headers(
+            "POST",
+            "/order?market=condition",
+            Some(body),
+            Some(1_758_744_060),
+        )
+        .await
+        .expect("headers generate");
+
+    assert_eq!(
+        query_headers.kuest_builder_signature,
+        path_headers.kuest_builder_signature
+    );
+}
+
+#[tokio::test]
 async fn remote_builder_auth_headers_are_forwarded() {
     let server = MockServer::start();
     let remote_mock = server.mock(|when, then| {
