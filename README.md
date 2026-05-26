@@ -9,7 +9,7 @@ Wallet-only Rust client for the Kuest relayer.
 
 ```toml
 [dependencies]
-kuest-builder-relayer-client = "0.1.0"
+kuest-builder-relayer-client = "0.1.1"
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 ```
 
