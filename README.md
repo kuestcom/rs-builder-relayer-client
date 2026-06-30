@@ -20,8 +20,9 @@ tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 
 Both chains use the same Deposit Wallet contracts:
 
-- Factory: `0x3DaBe8f032833CE42CC26d9149660E6f596759C5`
-- Implementation: `0xFB2f5D822Ecb062dE63a7B830C5e83C994698851`
+- Factory: `0x2CcdC6C5dDcd895aFcCD259F291de9b618A5cA6c`
+- Beacon: `0x74a618eBdd62Ff8579A8FE94f5B888d7623b9C35`
+- Implementation: `0xf9dFAe108bF7d7aaa9E6D8c1aB281c6285BAF86c`
 
 ## Environment
 

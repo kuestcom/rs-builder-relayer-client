@@ -7,7 +7,7 @@ use kuest_builder_relayer_client::{
 pub const TEST_PRIVATE_KEY: &str =
     "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 pub const ADDRESS: &str = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
-pub const DERIVED_WALLET: &str = "0x053258Cfb6124a089363F89dA04b2eFa39b34e2d";
+pub const DERIVED_WALLET: &str = "0xF3ab66D34F0B14C9a4f8564Ec8baaBBf51ad0Fd6";
 pub const BATCH_WALLET: &str = "0xa2927E7834648F1C03b4961CeeA4597292e3c025";
 pub const TOKEN: &str = "0x0000000000000000000000000000000000000001";
 pub const APPROVE_CALLDATA: &str = "0x095ea7b30000000000000000000000000000000000000000000000000000000000000002ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";

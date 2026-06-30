@@ -62,7 +62,7 @@ async fn get_transaction_uses_public_endpoint() {
             "transactionID": "txn-1",
             "transactionHash": "0xabc",
             "from": ADDRESS,
-            "to": "0x3DaBe8f032833CE42CC26d9149660E6f596759C5",
+            "to": "0x2CcdC6C5dDcd895aFcCD259F291de9b618A5cA6c",
             "walletAddress": DERIVED_WALLET,
             "data": "0x",
             "nonce": "0",
@@ -195,7 +195,7 @@ async fn deploy_deposit_wallet_posts_wallet_create() {
         serde_json::json!({
             "type": "WALLET-CREATE",
             "from": ADDRESS,
-            "to": "0x3DaBe8f032833CE42CC26d9149660E6f596759C5",
+            "to": "0x2CcdC6C5dDcd895aFcCD259F291de9b618A5cA6c",
         })
     );
     assert_eq!(response.transaction_id, "test-txn");
@@ -266,7 +266,7 @@ async fn execute_deposit_wallet_batch_posts_wallet_request() {
         serde_json::json!({
             "type": "WALLET",
             "from": ADDRESS,
-            "to": "0x3DaBe8f032833CE42CC26d9149660E6f596759C5",
+            "to": "0x2CcdC6C5dDcd895aFcCD259F291de9b618A5cA6c",
             "nonce": "0",
             "signature": EXPECTED_BATCH_SIGNATURE,
             "depositWalletParams": {
@@ -337,7 +337,7 @@ async fn poll_until_state_returns_success_early() {
                         "transactionID": "txn-1",
                         "transactionHash": "0xabc",
                         "from": ADDRESS,
-                        "to": "0x3DaBe8f032833CE42CC26d9149660E6f596759C5",
+                        "to": "0x2CcdC6C5dDcd895aFcCD259F291de9b618A5cA6c",
                         "walletAddress": BATCH_WALLET,
                         "data": "0x",
                         "nonce": "0",
@@ -383,7 +383,7 @@ async fn poll_until_state_returns_none_on_fail_state() {
             "transactionID": "txn-1",
             "transactionHash": "0xabc",
             "from": ADDRESS,
-            "to": "0x3DaBe8f032833CE42CC26d9149660E6f596759C5",
+            "to": "0x2CcdC6C5dDcd895aFcCD259F291de9b618A5cA6c",
             "walletAddress": BATCH_WALLET,
             "data": "0x",
             "nonce": "0",
@@ -424,7 +424,7 @@ async fn poll_until_state_returns_none_on_invalid_state() {
             "transactionID": "txn-1",
             "transactionHash": "0xabc",
             "from": ADDRESS,
-            "to": "0x3DaBe8f032833CE42CC26d9149660E6f596759C5",
+            "to": "0x2CcdC6C5dDcd895aFcCD259F291de9b618A5cA6c",
             "walletAddress": BATCH_WALLET,
             "data": "0x",
             "nonce": "0",
@@ -507,7 +507,7 @@ async fn response_wait_uses_polling_helper() {
             "transactionID": "test-txn",
             "transactionHash": "0xabc",
             "from": ADDRESS,
-            "to": "0x3DaBe8f032833CE42CC26d9149660E6f596759C5",
+            "to": "0x2CcdC6C5dDcd895aFcCD259F291de9b618A5cA6c",
             "walletAddress": BATCH_WALLET,
             "data": "0x",
             "nonce": "0",
@@ -555,7 +555,7 @@ async fn response_wait_treats_invalid_as_terminal_failure() {
             "transactionID": "test-txn",
             "transactionHash": "0xabc",
             "from": ADDRESS,
-            "to": "0x3DaBe8f032833CE42CC26d9149660E6f596759C5",
+            "to": "0x2CcdC6C5dDcd895aFcCD259F291de9b618A5cA6c",
             "walletAddress": BATCH_WALLET,
             "data": "0x",
             "nonce": "0",

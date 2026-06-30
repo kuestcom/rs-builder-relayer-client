@@ -219,7 +219,7 @@ impl RelayClient {
         derive_deposit_wallet(
             &self.signer_address()?,
             &config.factory_string(),
-            &config.implementation_string(),
+            &config.beacon_string(),
         )
     }
 

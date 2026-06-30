@@ -19,7 +19,7 @@ fn build_deposit_wallet_create_request_matches_current_clients() {
         serde_json::json!({
             "type": "WALLET-CREATE",
             "from": ADDRESS,
-            "to": "0x3DaBe8f032833CE42CC26d9149660E6f596759C5",
+            "to": "0x2CcdC6C5dDcd895aFcCD259F291de9b618A5cA6c",
         })
     );
 }
@@ -49,7 +49,7 @@ async fn build_deposit_wallet_batch_request_matches_fixed_signature_vector() {
         serde_json::json!({
                 "type": "WALLET",
                 "from": ADDRESS,
-                "to": "0x3DaBe8f032833CE42CC26d9149660E6f596759C5",
+                "to": "0x2CcdC6C5dDcd895aFcCD259F291de9b618A5cA6c",
                 "nonce": "0",
                 "signature": EXPECTED_BATCH_SIGNATURE,
                 "depositWalletParams": {

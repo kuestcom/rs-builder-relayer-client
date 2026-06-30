@@ -11,14 +11,21 @@ fn get_contract_config_supports_expected_chains() {
                 .deposit_wallet_contracts
                 .deposit_wallet_factory
                 .to_string(),
-            "0x3DaBe8f032833CE42CC26d9149660E6f596759C5"
+            "0x2CcdC6C5dDcd895aFcCD259F291de9b618A5cA6c"
+        );
+        assert_eq!(
+            config
+                .deposit_wallet_contracts
+                .deposit_wallet_beacon
+                .to_string(),
+            "0x74a618eBdd62Ff8579A8FE94f5B888d7623b9C35"
         );
         assert_eq!(
             config
                 .deposit_wallet_contracts
                 .deposit_wallet_implementation
                 .to_string(),
-            "0xFB2f5D822Ecb062dE63a7B830C5e83C994698851"
+            "0xf9dFAe108bF7d7aaa9E6D8c1aB281c6285BAF86c"
         );
     }
 }
