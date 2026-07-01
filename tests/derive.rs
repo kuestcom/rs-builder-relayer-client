@@ -9,7 +9,7 @@ fn derive_deposit_wallet_matches_current_sdk_vector_on_amoy() {
     let wallet = derive_deposit_wallet(
         ADDRESS,
         &config.deposit_wallet_contracts.factory_string(),
-        &config.deposit_wallet_contracts.implementation_string(),
+        &config.deposit_wallet_contracts.beacon_string(),
     )
     .expect("wallet derives");
 
@@ -22,7 +22,7 @@ fn derive_deposit_wallet_matches_current_sdk_vector_on_polygon() {
     let wallet = derive_deposit_wallet(
         ADDRESS,
         &config.deposit_wallet_contracts.factory_string(),
-        &config.deposit_wallet_contracts.implementation_string(),
+        &config.deposit_wallet_contracts.beacon_string(),
     )
     .expect("wallet derives");
 
