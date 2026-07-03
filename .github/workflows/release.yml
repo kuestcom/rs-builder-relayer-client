@@ -2,6 +2,7 @@ name: Release
 
 permissions:
   contents: read
+  id-token: write
 
 on:
   release:
@@ -16,6 +17,9 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-24.04
+    environment:
+      name: crates.io
+      url: https://crates.io/crates/kuest-builder-relayer-client
     if: ${{ github.repository_owner == 'kuestcom' }}
     steps:
       - name: Checkout repository
@@ -29,7 +33,24 @@ jobs:
           rustup default 1.91.1
           rustc --version
 
+      - name: Check release tag
+        run: |
+          VERSION=$(cargo metadata --no-deps --format-version 1 | python3 -c 'import json, sys; print(json.load(sys.stdin)["packages"][0]["version"])')
+          TAG="${GITHUB_REF_NAME#v}"
+          if [ "$TAG" != "$VERSION" ]; then
+            echo "::error::Release tag v$TAG does not match Cargo.toml version $VERSION"
+            exit 1
+          fi
+
       - run: cargo fmt --all -- --check
       - run: cargo clippy --all-targets --all-features -- -D warnings
       - run: cargo test
       - run: cargo package
+
+      - name: Authenticate with crates.io
+        uses: rust-lang/crates-io-auth-action@bbd81622f20ce9e2dd9622e3218b975523e45bbe # v1.0.4
+        id: auth
+
+      - run: cargo publish
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}
