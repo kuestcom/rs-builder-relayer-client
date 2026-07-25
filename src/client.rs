@@ -246,20 +246,6 @@ impl RelayClient {
             .await
     }
 
-    pub async fn deploy_deposit_wallet_public(&self) -> Result<ClientRelayerTransactionResponse> {
-        self.signer_needed()?;
-
-        let from = self.signer_address()?;
-        let config = &self.contract_config.deposit_wallet_contracts;
-        if !is_deposit_wallet_contract_config_valid(config) {
-            return Err(Error::UnsupportedContractConfig);
-        }
-
-        let request = build_deposit_wallet_create_request(&from, config);
-        self.submit_transaction(SUBMIT_PUBLIC_WALLET_TRANSACTION, &request, false)
-            .await
-    }
-
     pub async fn execute_deposit_wallet_batch(
         &self,
         calls: &[DepositWalletCall],

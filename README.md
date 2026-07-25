@@ -81,7 +81,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 - `derive_deposit_wallet_address()`
 - `get_expected_deposit_wallet()`
 - `deploy_deposit_wallet()`
-- `deploy_deposit_wallet_public()`
 - `execute_deposit_wallet_batch(calls, wallet_address, deadline)`
 - `execute_deposit_wallet_batch_public(calls, wallet_address, deadline)`
 - `poll_until_state(transaction_id, states, fail_state, max_polls, poll_frequency)`
