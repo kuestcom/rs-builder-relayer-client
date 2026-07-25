@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.4
+
+- Removed `deploy_deposit_wallet_public`; wallet deployment now requires authenticated `/submit`.
+
 ## 0.1.0
 
 - Added a Rust Deposit Wallet relayer client with parity-focused public APIs.

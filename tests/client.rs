@@ -204,28 +204,6 @@ async fn deploy_deposit_wallet_posts_wallet_create() {
 }
 
 #[tokio::test]
-async fn deploy_deposit_wallet_public_uses_public_wallet_endpoint() {
-    let server = MockServer::start();
-    let submit_mock = server.mock(|when, then| {
-        when.method(POST).path("/submit/wallet");
-        then.status(200).json_body_obj(&serde_json::json!({
-            "transactionID": "test-txn",
-            "state": "STATE_NEW",
-            "transactionHash": "0xabc",
-            "hash": "0xabc",
-        }));
-    });
-
-    let response = client(&server.base_url(), 137)
-        .deploy_deposit_wallet_public()
-        .await
-        .expect("deploy succeeds");
-
-    submit_mock.assert();
-    assert_eq!(response.transaction_id, "test-txn");
-}
-
-#[tokio::test]
 async fn execute_deposit_wallet_batch_posts_wallet_request() {
     let server = MockServer::start();
     let nonce_mock = server.mock(|when, then| {
