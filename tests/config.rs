@@ -25,7 +25,7 @@ fn get_contract_config_supports_expected_chains() {
                 .deposit_wallet_contracts
                 .deposit_wallet_implementation
                 .to_string(),
-            "0xD5D8CdF42DE6AaE41291E41788e5767a137751C7"
+            "0x65507Fa36589B3b2ceD54E77999909e843691e44"
         );
     }
 }

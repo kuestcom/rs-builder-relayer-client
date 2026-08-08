@@ -4,7 +4,7 @@ use crate::error::{Error, Result};
 
 const DEPOSIT_WALLET_FACTORY: &str = "0x2CcdC6C5dDcd895aFcCD259F291de9b618A5cA6c";
 const DEPOSIT_WALLET_BEACON: &str = "0x74a618eBdd62Ff8579A8FE94f5B888d7623b9C35";
-const DEPOSIT_WALLET_IMPLEMENTATION: &str = "0xD5D8CdF42DE6AaE41291E41788e5767a137751C7";
+const DEPOSIT_WALLET_IMPLEMENTATION: &str = "0x65507Fa36589B3b2ceD54E77999909e843691e44";
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct DepositWalletContractConfig {

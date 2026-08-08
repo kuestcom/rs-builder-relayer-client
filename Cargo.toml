@@ -1,6 +1,6 @@
 [package]
 name = "kuest-builder-relayer-client"
-version = "0.1.4"
+version = "0.1.5"
 description = "Rust Deposit Wallet relayer client SDK"
 authors = ["Kuest Engineering <engineering@kuest.com>"]
 edition = "2024"
