@@ -9,16 +9,15 @@ Wallet-only Rust client for the Kuest relayer.
 
 ```toml
 [dependencies]
-kuest-builder-relayer-client = "0.1.1"
+kuest-builder-relayer-client = "0.1.7"
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 ```
 
 ## Supported Chains
 
 - `137` Polygon mainnet
-- `80002` Polygon Amoy
 
-Both chains use the same Deposit Wallet contracts:
+The production chain uses these Deposit Wallet contracts:
 
 - Factory: `0x2CcdC6C5dDcd895aFcCD259F291de9b618A5cA6c`
 - Beacon: `0x74a618eBdd62Ff8579A8FE94f5B888d7623b9C35`
@@ -48,7 +47,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let client = RelayClient::new_with_private_key(
         &std::env::var("RELAYER_URL")?,
-        80002,
+        137,
         "0xabc123...",
         Some(builder_config),
     )?;
